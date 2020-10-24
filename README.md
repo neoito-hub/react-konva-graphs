@@ -1,6 +1,6 @@
 # react-konva-graphs
 
-An experimental repo which aims to create a graph package for konva which is a 2d canvas based 2d JavaScript framework for drawings shapes.
+An experimental repo which aims to create a graph package for konva which is a 2d canvas based JavaScript framework for drawings shapes.
 
 ## Available Scripts
 
