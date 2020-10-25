@@ -5,7 +5,7 @@ import { BarChart, PieChart } from "./lib"
 function App() {
   const data = {
     labels: ["Jan", "Feb"],
-    data: ["20", "30"],
+    data: [20, 30],
     heading: "Bar chart",
     hoverBorderColor: "red",
     borderWidth: 1,
@@ -17,12 +17,12 @@ function App() {
       <Layer>
         <BarChart
           data={data}
-          width={300}
-          height={200}
+          width={600}
+          height={400}
           options={{
             responsive: true
           }} />
-        <PieChart />
+        {/* <PieChart /> */}
       </Layer>
     </Stage>
   );
