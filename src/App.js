@@ -6,7 +6,7 @@ function App() {
   const data = {
     labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
     datasets: [{
-      label: "Population (millions)",
+      label: "Population",
       backgroundColor: [],
       data: [6300, 200, 5520, 3760, 9, 320, 819, 1308, 405, 2101, 640, 1999]
     }],

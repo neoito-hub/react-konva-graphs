@@ -51,8 +51,8 @@ const BarChart = ({ data, width, height, options }) => {
         setToolTipPosition({
             x: e.evt.pageX + horizontalInterval/2,
             y: e.evt.pageY - 20,
-            dataPlotted,
-            label,
+            dataPlotted: data.datasets[0].label+": "+dataPlotted,
+            label: label,
         });
         e.target.setAttrs({
             stroke: "rgba(255,99,132,1)",
