@@ -24,6 +24,8 @@ function App() {
           options={{
             responsive: true
           }} />
+
+          
         {/* <PieChart /> */}
       </Layer>
     </Stage>
