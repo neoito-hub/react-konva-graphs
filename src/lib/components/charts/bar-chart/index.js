@@ -1,32 +1,54 @@
 import React from "react";
 import { Text, Line, Rect, Group } from "react-konva";
+import { nanoid } from "nanoid";
 import ToolTip from "../../tooltip/tooltip";
 
 const BarChart = ({ data, width, height, options }) => {
 
-    const [toolTipPosition, setToolTipPosition] = React.useState({ x: 0, y: 0 })
+    const [toolTipPosition, setToolTipPosition] = React.useState({ x: null, y: null })
     const [showToolTip, setShowToolTip] = React.useState(false)
 
+    const groupRef = React.useRef();
+
+    const barWidth = 0.70; // 70% of interval 
+    const minVal = Math.min(...data.datasets[0].data);
+    const maxVal = Math.max(...data.datasets[0].data);
+    let absoluteMax = maxVal;
+
+    if (Math.abs(minVal) > maxVal) absoluteMax = Math.abs(minVal);
+    let a = Math.ceil(absoluteMax / data.datasets[0].data.length);
+    let b = a.toString().length;
+
+    if (b > 1) a = parseInt(a / Math.pow(10, b - 1)) * Math.pow(10, b - 1);
+    const yAxisInt = a;
+    const positiveTicks = Math.ceil(maxVal / a);
+    // const negativeTicks = Math.ceil(-minVal / a);
+    const yAxisTicks = positiveTicks;
+    const labelLength = data.labels.length;
+    const horizontalInterval = width / labelLength;
+    const verticalInterval = height / yAxisTicks;
+
     const reDraw = (e) => {
-        e.target.getLayer().batchDraw();
+        groupRef.current.getLayer().batchDraw();
     }
 
-    const setHoverProps = (e) => {
+    const setHoverProps = (e, gid) => {
         setShowToolTip(true);
         setToolTipPosition({
-            x: e.target.getAttr("x")+80,
-            y: e.target.getAttr("y")-20
+            x: e.target.getAttr("x") + 20,
+            y: e.target.getAttr("y") - 20
         });
         e.target.setAttrs({
             stroke: "rgba(255,99,132,1)",
             fill: "rgba(255,99,132,0.4)"
         });
 
-        console.log(toolTipPosition)
+        console.log(showToolTip)
         reDraw(e);
     }
 
-    const resetHoverProps = (e) => {
+    const resetHoverProps = (e, gid) => {
+        console.log("out")
         setShowToolTip(false);
         e.target.setAttrs({
             stroke: "rgba(255,99,132,1)",
@@ -39,68 +61,66 @@ const BarChart = ({ data, width, height, options }) => {
         reDraw(e);
     }
 
+    const HorizontalLines = () => {
+        return ([...Array(yAxisTicks + 1)].map((item, i) => {
+            console.log("looping")
+            const y = height - (i * verticalInterval);
+            const id = nanoid();
+            return (<Line listening={false} id={id} key={id} points={[0, y, 0, y, width, y]} strokeWidth={0.9} stroke="#c1c1c1" />)
+        }));
+    }
 
+    const VerticalLines = () => {
+        // const horizontalInterval = (width / yAxisTicks);
+        return ([...Array(yAxisTicks)].map((item, i) => {
+            console.log("looping")
+            const y = width - (i * horizontalInterval);
+            const id = nanoid();
+            return (<Line listening={false} id={id} key={id} points={[y, 0, y, height, y]} strokeWidth={0.9} stroke="#c1c1c1" />
+            )
+        }));
+    }
+
+    const Bars = ({ groupId }) => {
+        const graphRange = yAxisTicks * yAxisInt;
+        return ([...Array(labelLength)].map((item, i) => {
+            const barRatio = data.datasets[0].data[i] / graphRange;
+            const bw = (horizontalInterval * (barWidth * 100) / 100);
+            const bh = barRatio * height;
+            const x = (horizontalInterval * i) + (horizontalInterval - bw) / 2;
+            const y = height - bh;
+            const id = nanoid();
+            return (<Rect id={id} key={id} width={bw} height={bh} x={x} y={y} fill="rgba(255,99,132,0.2)" stroke="rgba(255,99,132,1)"
+                onMouseOver={(e) => setHoverProps(e, groupId)}
+                onMouseOut={(e) => resetHoverProps(e, groupId)} 
+                />
+            )
+        }));
+    }
+
+    const setRectRef = (e) => {
+        console.log("red", e)
+    }
+
+    const groupId = nanoid();
     return (
         <>
-            <Group x={20} y={20}>
-                <Rect fill="#fff" width={width} height={height} />
+            <Group x={20} y={20} id={groupId} ref={groupRef} draggable={true}>
+                <Rect fill="#fff" width={width} height={height}
+                    onClick={() => setShowToolTip(false)}
+                />
 
                 {/* horizontal lines */}
-
-                <Line points={[0, 0, 0, 0, 800, 0]} strokeWidth={0.9} stroke="#c1c1c1" />
-                <Line points={[0, 100, 0, 100, 800, 100]} strokeWidth={0.9} stroke="#c1c1c1" />
-                <Line points={[0, 200, 0, 200, 800, 200]} strokeWidth={0.9} stroke="#c1c1c1" />
-                <Line points={[0, 300, 0, 300, 800, 300]} strokeWidth={0.9} stroke="#c1c1c1" />
-                <Line points={[0, 400, 0, 400, 800, 400]} strokeWidth={0.9} stroke="#c1c1c1" />
+                <HorizontalLines />
 
                 {/* vertical lines */}
-
-                <Line points={[0, 0, 0, 400, 0]} strokeWidth={0.9} stroke="#c1c1c1" />
-                <Line points={[100, 0, 100, 400, 100]} strokeWidth={0.9} stroke="#c1c1c1" />
-                <Line points={[200, 0, 200, 400, 200]} strokeWidth={0.9} stroke="#c1c1c1" />
-                <Line points={[300, 0, 300, 400, 300]} strokeWidth={0.9} stroke="#c1c1c1" />
-                <Line points={[400, 0, 400, 400, 400]} strokeWidth={0.9} stroke="#c1c1c1" />
-                <Line points={[500, 0, 500, 400, 500]} strokeWidth={0.9} stroke="#c1c1c1" />
-                <Line points={[600, 0, 600, 400, 600]} strokeWidth={0.9} stroke="#c1c1c1" />
-                <Line points={[700, 0, 700, 400, 700]} strokeWidth={0.9} stroke="#c1c1c1" />
-                <Line points={[800, 0, 800, 400, 800]} strokeWidth={0.9} stroke="#c1c1c1" />
+                <VerticalLines />
 
                 {/* bars */}
+                <Bars groupId={groupId} />
 
-                <Rect width={70} x={15} y={200} height={200} fill="rgba(255,99,132,0.2)" stroke="rgba(255,99,132,1)"
-                    onMouseOver={setHoverProps}
-                    onMouseOut={resetHoverProps} />
-
-                <Rect width={70} x={115} y={100} height={300} fill="rgba(255,99,132,0.2)" stroke="rgba(255,99,132,1)"
-                    onMouseOver={setHoverProps}
-                    onMouseOut={resetHoverProps} />
-
-                <Rect width={70} x={215} y={300} height={100} fill="rgba(255,99,132,0.2)" stroke="rgba(255,99,132,1)"
-                    onMouseOver={setHoverProps}
-                    onMouseOut={resetHoverProps} />
-
-                <Rect width={70} x={315} y={50} height={350} fill="rgba(255,99,132,0.2)" stroke="rgba(255,99,132,1)"
-                    onMouseOver={setHoverProps}
-                    onMouseOut={resetHoverProps} />
-
-                <Rect width={70} x={415} y={350} height={50} fill="rgba(255,99,132,0.2)" stroke="rgba(255,99,132,1)"
-                    onMouseOver={setHoverProps}
-                    onMouseOut={resetHoverProps} />
-
-                <Rect width={70} x={515} y={390} height={10} fill="rgba(255,99,132,0.2)" stroke="rgba(255,99,132,1)"
-                    onMouseOver={setHoverProps}
-                    onMouseOut={resetHoverProps} />
-
-                <Rect width={70} x={615} y={310} height={90} fill="rgba(255,99,132,0.2)" stroke="rgba(255,99,132,1)"
-                    onMouseOver={setHoverProps}
-                    onMouseOut={resetHoverProps} />
-
-                <Rect width={70} x={715} y={250} height={150} fill="rgba(255,99,132,0.2)" stroke="rgba(255,99,132,1)"
-                    onMouseOver={setHoverProps}
-                    onMouseOut={resetHoverProps} />
-
-                {showToolTip && <ToolTip position={toolTipPosition} />}
             </Group>
+            {showToolTip && <ToolTip position={toolTipPosition} />}
         </>)
 }
 

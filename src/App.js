@@ -4,20 +4,22 @@ import { BarChart, PieChart } from "./lib"
 
 function App() {
   const data = {
-    labels: ["Jan", "Feb"],
-    data: [20, 30],
-    heading: "Bar chart",
+    labels: ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
+    datasets: [{
+      label: "Population (millions)",
+      backgroundColor:[],
+      data: [6300,200,5520,3760,9,320,819,1308,405,2101,640,1999]
+    }],
     hoverBorderColor: "red",
     borderWidth: 1,
-    colorSet: [] // color value for each bar, preset colors if empty
   }
 
   return (
-    <Stage width={window.innerWidth} height={window.innerHeight}>
+    <Stage width={1368} height={window.innerHeight}>
       <Layer>
         <BarChart
           data={data}
-          width={600}
+          width={800}
           height={400}
           options={{
             responsive: true

@@ -8,7 +8,6 @@ const ToolTip = ({position}) => {
             <Rect width={120} height={50} fill="rgba(0,0,0,0.9)" cornerRadius={8} />
             <Text fill="#fff" text="June" fontStyle="bold" x={10} y={8}/>
             <Text fill="#fff" text="Data 26"  x={10} y={24}/>
-
         </Group>)
 }
 
