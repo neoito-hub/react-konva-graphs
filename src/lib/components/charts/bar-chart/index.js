@@ -4,7 +4,7 @@ import { nanoid } from "nanoid";
 import ToolTip from "../../tooltip/tooltip";
 
 const BarChart = ({ data, width, height, options }) => {
-    const [toolTipPosition, setToolTipPosition] = React.useState({ x: null, y: null })
+    const [toolTipPosition, setToolTipPosition] = React.useState({ x: null, y: null, dataPlotted: null, label: null })
     const [showToolTip, setShowToolTip] = React.useState(false)
     // const [labels, setLabels] = React.useState(data.labels);
     // const [dataToPlot, setDataToPlot] = React.useState(data.datasets[0].data)
@@ -45,11 +45,14 @@ const BarChart = ({ data, width, height, options }) => {
         groupRef.current.getLayer().batchDraw();
     }
 
-    const setHoverProps = (e, gid) => {
+    const setHoverProps = (e, gid,dataPlotted, label) => {
         setShowToolTip(true);
+        console.log(e.evt)
         setToolTipPosition({
-            x: e.target.getAttr("x") + 20,
-            y: e.target.getAttr("y") - 20
+            x: e.evt.pageX + horizontalInterval/2,
+            y: e.evt.pageY - 20,
+            dataPlotted,
+            label,
         });
         e.target.setAttrs({
             stroke: "rgba(255,99,132,1)",
@@ -113,7 +116,7 @@ const BarChart = ({ data, width, height, options }) => {
             const y = height - bh;
             const id = nanoid();
             return (<Rect id={id} key={id} width={bw} height={bh} x={x} y={y} fill="rgba(255,99,132,0.2)" stroke="rgba(255,99,132,1)"
-                onMouseOver={(e) => setHoverProps(e, groupId)}
+                onMouseOver={(e) => setHoverProps(e, groupId, dataToPlot[i], labels[i])}
                 onMouseOut={(e) => resetHoverProps(e, groupId)}
             />
             )
