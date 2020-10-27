@@ -1,28 +1,53 @@
 import React from "react";
+// import { nanoid } from "nanoid";
 import { Stage, Layer } from "react-konva";
-import { BarChart, PieChart } from "./lib"
+import { PieChart } from "./lib";
 
 function App() {
-  const data = {
-    labels: ["Jan", "Feb"],
-    data: [20, 30],
-    heading: "Bar chart",
-    hoverBorderColor: "red",
-    borderWidth: 1,
-    colorSet: [] // color value for each bar, preset colors if empty
-  }
+  const dataPie = [
+    {
+      labels: [
+        "Saudi Arabia",
+        "Russia",
+        "Iraq",
+        "United Arab Emirates",
+        "Canada",
+      ],
+      datasets: {
+        dataValues: [133.3, 86.2, 52.2, 51.2, 50.2],
+        backgroundColor: [
+          "#FF6384",
+          "#63FF84",
+          "#84FF63",
+          "#8463FF",
+          "#6384FF",
+        ],
+      },
+    },
+  ];
 
   return (
     <Stage width={window.innerWidth} height={window.innerHeight}>
       <Layer>
-        <BarChart
+        {/* <BarChart
           data={data}
           width={600}
           height={400}
           options={{
             responsive: true
-          }} />
-        {/* <PieChart /> */}
+          }} /> */}
+        {dataPie.map((data, idx) => (
+          <PieChart
+            key={idx}
+            id={idx}
+            height={300}
+            width={300}
+            data={data}
+            options={{
+              responsive: true,
+            }}
+          />
+        ))}
       </Layer>
     </Stage>
   );
