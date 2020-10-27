@@ -1,28 +1,28 @@
 import React, { Fragment, useState } from "react";
-import { Wedge, Text } from "react-konva";
+import { Wedge } from "react-konva";
+import ToolTip from "../../../tooltip/tooltip";
 
-const Pie = ({
-  width,
-  height,
-  radius = 100,
-  data,
-  total,
-  rotation,
-  totalInput,
-}) => {
-  const [hover, setClick] = useState({ didHover: false });
+const Pie = ({ width, height, radius = 100, data, total, rotation, totalInput, }) => {
+
+  const [hover, setHover] = useState({ didHover: false, position: null, data: null, });
+
+//* --------------------------------- Methods -------------------------------- */
   const onMouseOver = (e) => {
     console.log(e.target.getParent());
-    setClick({
-      didHover: true,
+    setHover({ didHover: true, 
+               position: { x: width, y: 0, },
+               details: { name: data.product, 
+                          value: Math.trunc((10000 / total) * data.value) / 100, },
     });
   };
+  
   const onMouseOut = (e) => {
-    setClick({
+    setHover({
       didHover: false,
+      position: null,
     });
   };
-  // console.log("e.target")
+//* -------------------------------------------------------------------------- */
 
   return (
     <Fragment>
@@ -32,7 +32,7 @@ const Pie = ({
         y={height / 2}
         radius={radius}
         angle={(360 / total) * data.value}
-        fill={data.color}
+        fill={data.backgroundColor}
         stroke={hover.didHover ? data.strokeColor : null}
         strokeWidth={hover.didHover ? data.strokeWidth : null}
         rotation={rotation}
@@ -50,14 +50,7 @@ const Pie = ({
         shadowOffsetY={hover.didHover ? 10 : 0}
       />
       {hover.didHover && (
-        <Text
-          text={Math.trunc((10000 / total) * data.value) / 100}
-          x={-100}
-          y={-50}
-          strokeColor='black'
-          fontSize={36}
-          fontFamily='Arial'
-        />
+        <ToolTip position={hover.position} details={hover.details} />
       )}
     </Fragment>
   );

@@ -5,19 +5,19 @@ const Scale = ({ idx, width, height, radius, data, totalInput }) => {
   return (
     <Fragment>
       <Rect
-        width={width / 13}
-        height={height / 30}
-        fill={data.color}
+        width={width / 10}
+        height={height / 20}
+        fill={data.backgroundColor}
         x={width / 5}
-        y={height - idx * (height / 2 / totalInput)}
+        y={height / 2 - idx * (height / 2 / totalInput)}
         stroke='black'
         strokeWidth={1}
       />
       <Text
         text={data.product.slice(0, 1).toUpperCase() + data.product.slice(1)}
-        x={width / 5 + width / 8}
-        y={height - idx * (height / 2 / totalInput)}
-        fontSize={radius / 7}
+        x={width / 5 + width / 5}
+        y={height / 2 - idx * (height / 2 / totalInput)}
+        fontSize={radius / 6}
       />
     </Fragment>
   );
