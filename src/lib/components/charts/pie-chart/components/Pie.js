@@ -1,28 +1,42 @@
-import React, { Fragment, useState } from "react";
-import { Wedge } from "react-konva";
-import ToolTip from "../../../tooltip/tooltip";
+import React, { Fragment, useState } from 'react'
+import { Wedge } from 'react-konva'
+import ToolTip from '../../../tooltip/tooltip'
 
-const Pie = ({ width, height, radius = 100, data, total, rotation, totalInput, }) => {
+const Pie = ({
+  width,
+  height,
+  radius = 100,
+  data,
+  total,
+  rotation,
+  totalInput,
+}) => {
+  const [hover, setHover] = useState({
+    didHover: false,
+    position: null,
+    data: null,
+  })
 
-  const [hover, setHover] = useState({ didHover: false, position: null, data: null, });
-
-//* --------------------------------- Methods -------------------------------- */
+  //* --------------------------------- Methods -------------------------------- */
   const onMouseOver = (e) => {
-    console.log(e.target.getParent());
-    setHover({ didHover: true, 
-               position: { x: width, y: 0, },
-               details: { name: data.product, 
-                          value: Math.trunc((10000 / total) * data.value) / 100, },
-    });
-  };
-  
+    setHover({
+      didHover: true,
+      data: {
+        x: width,
+        y: 0,
+        name: data.label,
+        value: data.value,
+      },
+    })
+  }
+
   const onMouseOut = (e) => {
     setHover({
       didHover: false,
-      position: null,
-    });
-  };
-//* -------------------------------------------------------------------------- */
+      data: null,
+    })
+  }
+  //* -------------------------------------------------------------------------- */
 
   return (
     <Fragment>
@@ -43,17 +57,17 @@ const Pie = ({ width, height, radius = 100, data, total, rotation, totalInput, }
         scaleY={hover.didHover ? 1.1 : 1}
         shadowEnabled
         opacity={hover.didHover ? 0.8 : 1}
-        shadowColor={hover.didHover ? "black" : "transparent"}
+        shadowColor={hover.didHover ? 'black' : 'transparent'}
         shadowBlur={hover.didHover ? 10 : 0}
         shadowOpacity={hover.didHover ? 0.6 : 0}
         shadowOffsetX={hover.didHover ? 10 : 0}
         shadowOffsetY={hover.didHover ? 10 : 0}
       />
       {hover.didHover && (
-        <ToolTip position={hover.position} details={hover.details} />
+        <ToolTip data={hover.data} />
       )}
     </Fragment>
-  );
-};
+  )
+}
 
-export default Pie;
+export default Pie

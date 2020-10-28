@@ -1,30 +1,88 @@
-import React, { useState } from "react";
-import { nanoid } from "nanoid";
-import { Stage, Layer } from "react-konva";
-import { PieChart } from "./lib";
+import React, { useState } from 'react'
+import { nanoid } from 'nanoid'
+import { Stage, Layer } from 'react-konva'
+import { PieChart, BarChart } from './lib'
 
 function App() {
   // Data passes as per Chart.js
-  const dataPie = [
-    {
-      labels: [ "Saudi Arabia", "Russia", "Iraq", "United Arab Emirates", "Canada", ],
-      datasets: {
-        dataValues: [133.3, 86.2, 52.2, 51.2, 50.2],
-        backgroundColor: [ "#FF6384", "#63FF84", "#84FF63", "#8463FF", "#6384FF", ],
-      }
+  const dataPie = {
+    labels: [
+      'Saudi Arabia',
+      'Russia',
+      'Iraq',
+      'United Arab Emirates',
+      'Canada',
+      'India',
+      'China',
+      'Fiji',
+      'North Korea',
+      'USA',
+      'Ghana',
+      'Rwanda',
+      'DRK',
+      'Chile',
+      'Nepal',
+      'Spain',
+    ],
+    datasets: {
+      label: 'Population ',
+      data: [
+        133.3,
+        86.2,
+        52.2,
+        51.2,
+        50.2,
+        20.2,
+        40.6,
+        10.2,
+        0.7,
+        9,
+        20,
+        90,
+        3,
+        30,
+        40,
+        60,
+      ],
+      backgroundColor: ['#FF6384', '#63FF84', '#84FF63', '#8463FF', '#6384FF'],
     },
-  ];
+  }
 
-  const [selectedId, selectShape] = useState(null);
+  const dataBar = {
+    labels: [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ],
+    datasets: {
+      label: 'Population',
+      backgroundColor: [],
+      data: [6300, 200, 5520, 3760, 9, 320, 819, 1308, 405, 2101, 640, 1999],
+    },
+
+    hoverBorderColor: 'red',
+    borderWidth: 1,
+  }
+
+  const [selectedId, selectShape] = useState(null)
 
   /* ----------------------------- Methods ---------------------------- */
   // to deselect when clicked outside the transformer
   const checkDeselect = (e) => {
-    const clickedOnEmpty = e.target === e.target.getStage();
+    const clickedOnEmpty = e.target === e.target.getStage()
     if (clickedOnEmpty) {
-      selectShape(null);
+      selectShape(null)
     }
-  };
+  }
   /* -------------------------------------------------------------------------- */
 
   return (
@@ -35,30 +93,45 @@ function App() {
       onTouchStart={checkDeselect}
     >
       <Layer>
-        {/* <BarChart
-          data={data}
+        <BarChart
+          data={dataBar}
           width={600}
           height={400}
+          x={0}
+          y={0}
           options={{
-            responsive: true
-          }} /> */}
-        {dataPie.map((data, idx) => (
-          <PieChart
-            key={nanoid()}
-            id={idx}
-            height={200}
-            width={200}
-            data={data}
-            options={{
-              responsive: true,
-            }}
-            selectShape={selectShape}
-            selectedId={selectedId}
-          />
-        ))}
+            responsive: true,
+          }}
+        />
+
+        <PieChart
+          height={200}
+          width={400}
+          x={350}
+          y={550}
+          data={dataPie}
+          options={{
+            responsive: true,
+          }}
+          selectShape={selectShape}
+          selectedId={selectedId}
+        />
+
+        {/* <PieChart
+          height={200}
+          width={400}
+          x={20}
+          y={150}
+          data={dataPie}
+          options={{
+            responsive: true,
+          }}
+          selectShape={selectShape}
+          selectedId={selectedId}
+        /> */}
       </Layer>
     </Stage>
-  );
+  )
 }
 
-export default App;
+export default App

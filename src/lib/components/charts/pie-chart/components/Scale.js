@@ -1,26 +1,27 @@
-import React, { Fragment } from "react";
-import { Text, Rect } from "react-konva";
+import React, { Fragment, useRef } from 'react'
+import { Text, Rect, Group } from 'react-konva'
 
-const Scale = ({ idx, width, height, radius, data, totalInput }) => {
+const Scale = ({ idx, width, height, radius, data, position, totalInput }) => {
   return (
-    <Fragment>
+    <Group x={position.x} y ={position.y}>
       <Rect
-        width={width / 10}
-        height={height / 20}
+        width={15}
+        height={10}
         fill={data.backgroundColor}
-        x={width / 5}
-        y={height / 2 - idx * (height / 2 / totalInput)}
-        stroke='black'
+        // x={width / 5}
+        // y={height / 2 - idx * (height / 2 / totalInput)}
+        stroke="black"
         strokeWidth={1}
       />
       <Text
-        text={data.product.slice(0, 1).toUpperCase() + data.product.slice(1)}
-        x={width / 5 + width / 5}
-        y={height / 2 - idx * (height / 2 / totalInput)}
-        fontSize={radius / 6}
+        text={data.label.slice(0, 1).toUpperCase() + data.label.slice(1)}
+        x={width/10 +15}
+        width={400}
+        // y={height / 2 - idx * (height / 2 / totalInput)}
+        // fontSize={radius / 6}
       />
-    </Fragment>
-  );
-};
+    </Group>
+  )
+}
 
-export default Scale;
+export default Scale
