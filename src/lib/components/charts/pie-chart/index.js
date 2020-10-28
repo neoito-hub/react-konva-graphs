@@ -1,5 +1,4 @@
 import React, { useState, useEffect, Fragment } from "react";
-import { Text } from "react-konva";
 import PieGroup from "./components/PieGroup";
 
 const PieChart = ({ id, data, width, height, options, selectedId, selectShape, }) => {
@@ -21,8 +20,6 @@ const PieChart = ({ id, data, width, height, options, selectedId, selectShape, }
 
   return (
     <Fragment>
-      <Text x={10} width={window.innerWidth - 200} align='center' text='Pie Chart' stroke='black' fontSize={36} />
-
       <PieGroup groupValue={graphDetails} isSelected={graphDetails.id === selectedId} 
         onSelect={() => { selectShape(graphDetails.id); }}
         onChange={(newAttrs) => {
