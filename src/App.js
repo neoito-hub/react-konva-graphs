@@ -19,19 +19,20 @@ function App() {
       <Layer>
         <BarChart
           data={data}
-          width={800}
+          width={600}
           height={400}
           options={{
-            responsive: true
+            responsive: true,
+            showGrid: true
           }} />
 
-        <BarChart
+        {/* <BarChart
           data={data}
           width={400}
           height={200}
           options={{
             responsive: true
-          }} />
+          }} /> */}
 
 
         {/* <PieChart /> */}

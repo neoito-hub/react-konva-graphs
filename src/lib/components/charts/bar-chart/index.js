@@ -4,11 +4,27 @@ import { nanoid } from "nanoid";
 import ToolTip from "../../tooltip/tooltip";
 
 const BarChart = ({ data, width, height, options }) => {
+
+    /*---------------------State------------------------------------------------------------------------------------------------*/
+
     const [toolTipPosition, setToolTipPosition] = React.useState({ x: null, y: null, dataPlotted: null, label: null })
     const [showToolTip, setShowToolTip] = React.useState(false)
     // const [labels, setLabels] = React.useState(data.labels);
     // const [dataToPlot, setDataToPlot] = React.useState(data.datasets[0].data)
+
+    /*---------------------------------------------------------------------------------------------------------------------*/
+
+
+    /*---------------------refs------------------------------------------------------------------------------------------------*/
+
     const groupRef = React.useRef();
+
+    /*------------------------------------------------------------------------------------------------------------------------*/
+
+    /*---------------------variables------------------------------------------------------------------------------------------------*/
+
+    const showGrid = options.showGrid === undefined ? true : options.showGrid;
+    const groupId = nanoid();
     const labels = data.labels;
     const dataToPlot = data.datasets[0].data;
     const barWidth = 0.70; // 70% of interval 
@@ -40,18 +56,22 @@ const BarChart = ({ data, width, height, options }) => {
         scaleFactor = 1;
         scaleSuffix = "";
     }
+    /*---------------------------------------------------------------------------------------------------------------------*/
+
+
+    /*-------------------------------------functions--------------------------------------------------------------------------------*/
 
     const reDraw = (e) => {
         groupRef.current.getLayer().batchDraw();
     }
 
-    const setHoverProps = (e, gid,dataPlotted, label) => {
+    const setHoverProps = (e, gid, dataPlotted, label) => {
         setShowToolTip(true);
         console.log(e.evt)
         setToolTipPosition({
-            x: e.evt.pageX + horizontalInterval/2,
+            x: e.evt.pageX + horizontalInterval / 2,
             y: e.evt.pageY - 20,
-            dataPlotted: data.datasets[0].label+": "+dataPlotted,
+            dataPlotted: data.datasets[0].label + ": " + dataPlotted,
             label: label,
         });
         e.target.setAttrs({
@@ -87,10 +107,12 @@ const BarChart = ({ data, width, height, options }) => {
             console.log()
             yLabel = yLabel.toString() + scaleSuffix;
             verticalIndex++;
-            return (<>
-                <Line listening={false} id={id} key={id} points={[-5, y, 0, y, width, y]} strokeWidth={0.9} stroke="#c1c1c1" />
-                <Text text={yLabel} y={y - 10} x={-40} fill="#000" />
-            </>)
+            if (showGrid)
+                return (<>
+                    <Line listening={false} id={id} key={id} points={[-5, y, 0, y, width, y]} strokeWidth={0.9} stroke="#c1c1c1" />
+                    <Text text={yLabel} y={y - 10} x={-40} fill="#000" />
+                </>)
+            return (<Text text={yLabel} y={y - 10} x={-40} fill="#000" />)
         }));
     };
 
@@ -100,9 +122,12 @@ const BarChart = ({ data, width, height, options }) => {
             console.log("looping")
             const x = width - (i * horizontalInterval);
             const id = nanoid();
-            return (<><Line listening={false} id={id} key={id} points={[x, 0, x, height, x]} strokeWidth={0.9} stroke="#c1c1c1" />
-                <Text text={labels[i]} x={x - horizontalInterval} y={height+5} fill="#000" />
-            </>)
+            console.log("show grid ", showGrid)
+            if (showGrid)
+                return (<><Line listening={false} id={id} key={id} points={[x, 0, x, height, x]} strokeWidth={0.9} stroke="#c1c1c1" />
+                    <Text text={labels[i]} x={x - horizontalInterval} y={height + 5} fill="#000" />
+                </>)
+            return (<Text text={labels[i]} x={x - horizontalInterval} y={height + 5} fill="#000" />)
         }));
     };
 
@@ -123,7 +148,8 @@ const BarChart = ({ data, width, height, options }) => {
         }));
     }
 
-    const groupId = nanoid();
+    /*---------------------------------------------------------------------------------------------------------------------*/
+
 
     return (
         <>
