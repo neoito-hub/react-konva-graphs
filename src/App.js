@@ -4,7 +4,7 @@ import { PieChart, BarChart, DonutChart } from './lib'
 
 function App() {
   // Data passes as per Chart.js
-  const dataPie = {
+  const data = {
     labels: [
       'Saudi Arabia',
       'Russia',
@@ -33,44 +33,22 @@ function App() {
         50.2,
         20.2,
         40.6,
-        10.2,
+        90.2,
         0.7,
         9,
         20,
         90,
-        3,
+        30,
         30,
         40,
         60,
       ],
       backgroundColor: ['#FF6384', '#63FF84', '#84FF63', '#8463FF', '#6384FF'],
     },
-  }
-
-  const dataBar = {
-    labels: [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ],
-    datasets: {
-      label: 'Population',
-      backgroundColor: [],
-      data: [6300, 200, 5520, 3760, 9, 320, 819, 1308, 405, 2101, 640, 1999],
-    },
-
     hoverBorderColor: 'red',
-    borderWidth: 1,
   }
+
+  
 
   const [selectedId, selectShape] = useState(null)
 
@@ -93,7 +71,7 @@ function App() {
     >
       <Layer>
         <BarChart
-          data={dataBar}
+          data={data}
           width={600}
           height={400}
           x={0}
@@ -108,7 +86,7 @@ function App() {
           width={200}
           x={700}
           y={100}
-          data={dataPie}
+          data={data}
           options={{
             responsive: true,
           }}
@@ -120,7 +98,7 @@ function App() {
           width={200}
           x={950}
           y={100}
-          data={dataPie}
+          data={data}
           options={{
             responsive: true,
           }}

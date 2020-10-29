@@ -25,7 +25,7 @@ const Pie = ({
         x: radius+20,
         y: 0,
         name: data.label,
-        value: data.value,
+        value:  Math.abs(data.value),
       },
     })
   }
@@ -45,7 +45,7 @@ const Pie = ({
         x={width / 4}
         y={height / 2}
         radius={radius}
-        angle={(360 / total) * data.value}
+        angle={(360 / total) * Math.abs(data.value)}
         fill={data.backgroundColor}
         stroke={hover.didHover ? data.strokeColor : null}
         strokeWidth={hover.didHover ? data.strokeWidth : null}
