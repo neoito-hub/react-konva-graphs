@@ -147,6 +147,22 @@ const BarChart = ({ data, width, height, options }) => {
             )
         }));
     }
+    const Lines = ({ groupId }) => {
+        const graphRange = yAxisTicks * yAxisInt;
+        return (labels.map((item, i) => {
+            const barRatio = dataToPlot[i] / graphRange;
+            const bw = (horizontalInterval * (barWidth * 100) / 100);
+            const bh = barRatio * height;
+            const x = (horizontalInterval * i) + (horizontalInterval - bw) / 2;
+            const y = height - bh;
+            const id = nanoid();
+            return (<Rect id={id} key={id} width={bw} height={bh} x={x} y={y} fill="rgba(255,99,132,0.2)" stroke="rgba(255,99,132,1)"
+                onMouseOver={(e) => setHoverProps(e, groupId, dataToPlot[i], labels[i])}
+                onMouseOut={(e) => resetHoverProps(e, groupId)} 
+            />
+            )
+        }));
+    }
 
     /*---------------------------------------------------------------------------------------------------------------------*/
 

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
+// import { nanoid } from 'nanoid'
 import { Stage, Layer } from 'react-konva'
-import { PieChart, BarChart, DonutChart } from './lib'
+import { PieChart, BarChart,DonutChart } from './lib'
 
 function App() {
   // Data passes as per Chart.js
@@ -65,7 +66,7 @@ function App() {
     datasets: {
       label: 'Population',
       backgroundColor: [],
-      data: [6300, 200, 5520, 3760, 9, 320, 819, 1308, 405, 2101, 640, 1999],
+      data: [6300, 200, 5520, 3760, 9, -320, 819, 1308, 405, 2101, 640, 1999],
     },
 
     hoverBorderColor: 'red',
@@ -92,7 +93,7 @@ function App() {
       onTouchStart={checkDeselect}
     >
       <Layer>
-        <BarChart
+        {/* <BarChart
           data={dataBar}
           width={600}
           height={400}
@@ -100,6 +101,17 @@ function App() {
           y={0}
           options={{
             responsive: true,
+          }}
+        /> */}
+        <BarChart
+          data={dataBar}
+          width={600}
+          height={400}
+          x={0}
+          y={450}
+          options={{
+            responsive: true,
+            showGrid:false
           }}
         />
 

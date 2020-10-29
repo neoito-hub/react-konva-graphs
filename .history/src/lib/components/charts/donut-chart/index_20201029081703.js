@@ -1,9 +1,9 @@
 import React, { useState, useEffect, Fragment } from 'react'
 
-import PieGroup from './components/PieGroup'
+import DonutGroup from './components/DonutGroup'
 
 const Konva = window.Konva
-const PieChart = ({
+const DonutChart = ({
   id,
   data,
   width,
@@ -48,7 +48,7 @@ const PieChart = ({
 
   return (
     <Fragment>
-      <PieGroup
+      <DonutGroup
         groupValue={graphDetails}
         isSelected={graphDetails.id === selectedId}
         // onSelect={() => {
@@ -63,4 +63,4 @@ const PieChart = ({
   )
 }
 
-export default PieChart
+export default DonutChart

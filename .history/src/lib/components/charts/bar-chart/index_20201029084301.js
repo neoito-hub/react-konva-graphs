@@ -142,7 +142,7 @@ const BarChart = ({ data, width, height, options }) => {
             const id = nanoid();
             return (<Rect id={id} key={id} width={bw} height={bh} x={x} y={y} fill="rgba(255,99,132,0.2)" stroke="rgba(255,99,132,1)"
                 onMouseOver={(e) => setHoverProps(e, groupId, dataToPlot[i], labels[i])}
-                onMouseOut={(e) => resetHoverProps(e, groupId)} 
+                onMouseOut={(e) => resetHoverProps(e, groupId)} onMouseLeave={(e) => resetHoverProps(e, groupId)}
             />
             )
         }));

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
+import { nanoid } from 'nanoid'
 import { Stage, Layer } from 'react-konva'
-import { PieChart, BarChart, DonutChart } from './lib'
+import { PieChart, BarChart } from './lib'
 
 function App() {
   // Data passes as per Chart.js
@@ -92,7 +93,7 @@ function App() {
       onTouchStart={checkDeselect}
     >
       <Layer>
-        <BarChart
+        {/* <BarChart
           data={dataBar}
           width={600}
           height={400}
@@ -101,13 +102,13 @@ function App() {
           options={{
             responsive: true,
           }}
-        />
+        /> */}
 
         <PieChart
           height={200}
-          width={200}
-          x={700}
-          y={100}
+          width={400}
+          x={350}
+          y={550}
           data={dataPie}
           options={{
             responsive: true,
@@ -115,18 +116,19 @@ function App() {
           selectShape={selectShape}
           selectedId={selectedId}
         />
-        <DonutChart
+
+        {/* <PieChart
           height={200}
-          width={200}
-          x={950}
-          y={100}
+          width={400}
+          x={20}
+          y={150}
           data={dataPie}
           options={{
             responsive: true,
           }}
           selectShape={selectShape}
           selectedId={selectedId}
-        />
+        /> */}
       </Layer>
     </Stage>
   )

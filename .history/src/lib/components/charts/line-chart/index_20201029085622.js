@@ -112,7 +112,7 @@ const BarChart = ({ data, width, height, options }) => {
                     <Line listening={false} id={id} key={id} points={[-5, y, 0, y, width, y]} strokeWidth={0.9} stroke="#c1c1c1" />
                     <Text text={yLabel} y={y - 10} x={-40} fill="#000" />
                 </>)
-            return (<Text text={yLabel} y={y - 10} x={-40} fill="#000" />)
+            // return (<Text text={yLabel} y={y - 10} x={-40} fill="#000" />)
         }));
     };
 

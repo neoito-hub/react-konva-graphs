@@ -165,7 +165,7 @@ const BarChart = ({ data, width, height, options }) => {
                 <VerticalLines />
 
                 {/* bars */}
-                <Bars groupId={groupId} />
+                {/* <Bars groupId={groupId} /> */}
 
             </Group>
             {showToolTip && <ToolTip data={toolTipData} />}

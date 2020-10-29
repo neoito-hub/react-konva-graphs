@@ -3,7 +3,7 @@ import React, { useState, useEffect, Fragment } from 'react'
 import PieGroup from './components/PieGroup'
 
 const Konva = window.Konva
-const PieChart = ({
+const DonutChart = ({
   id,
   data,
   width,
@@ -63,4 +63,4 @@ const PieChart = ({
   )
 }
 
-export default PieChart
+export default DonutChart
