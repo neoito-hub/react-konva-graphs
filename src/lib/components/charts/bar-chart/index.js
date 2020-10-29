@@ -100,11 +100,10 @@ const BarChart = ({ data, width, height, options }) => {
     const HorizontalLines = () => {
         let verticalIndex = -negativeTicks;
         return ([...Array(yAxisTicks + 1)].map((item, i) => {
-            console.log("looping")
+            // console.log("looping")
             const y = height - (i * verticalInterval);
             const id = nanoid();
             let yLabel = verticalIndex * yAxisInt / scaleFactor;
-            console.log()
             yLabel = yLabel.toString() + scaleSuffix;
             verticalIndex++;
             if (showGrid)
@@ -119,10 +118,10 @@ const BarChart = ({ data, width, height, options }) => {
     const VerticalLines = () => {
         // const horizontalInterval = (width / yAxisTicks);
         return ([...Array(yAxisTicks)].map((item, i) => {
-            console.log("looping")
+            // console.log("looping")
             const x = width - (i * horizontalInterval);
             const id = nanoid();
-            console.log("show grid ", showGrid)
+            // console.log("show grid ", showGrid)
             if (showGrid)
                 return (<><Line listening={false} id={id} key={id} points={[x, 0, x, height, x]} strokeWidth={0.9} stroke="#c1c1c1" />
                     <Text text={labels[i]} x={x - horizontalInterval} y={height + 5} fill="#000" />
@@ -141,7 +140,7 @@ const BarChart = ({ data, width, height, options }) => {
             const y = height - bh;
             const id = nanoid();
             return (<Rect id={id} key={id} width={bw} height={bh} x={x} y={y} fill="rgba(255,99,132,0.2)" stroke="rgba(255,99,132,1)"
-                onMouseOver={(e) => setHoverProps(e, groupId, dataToPlot[i], labels[i])}
+                onMouseOver={(e) =>{console.log("msover"); setHoverProps(e, groupId, dataToPlot[i], labels[i])}}
                 onMouseOut={(e) => resetHoverProps(e, groupId)}
             />
             )

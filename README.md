@@ -19,7 +19,7 @@ You will also see any lint errors in the console.
 Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `yarn build`
+### `yarn generate`
 
 This will generate a dist dir which contains components which can be imported into any react-konva app.
 

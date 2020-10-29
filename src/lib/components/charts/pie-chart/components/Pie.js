@@ -19,6 +19,7 @@ const Pie = ({
 
   //* --------------------------------- Methods -------------------------------- */
   const onMouseOver = (e) => {
+    console.log("mouseover")
     setHover({
       didHover: true,
       data: {
