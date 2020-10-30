@@ -25,7 +25,7 @@ const Donut = ({
         x: radius+20,
         y: 0,
         name: data.label,
-        value: data.value,
+        value:  Math.abs(data.value),
       },
     })
   }
@@ -46,7 +46,7 @@ const Donut = ({
         y={height / 2}
         outerRadius={radius}
         innerRadius={radius/1.5}
-        angle={(360 / total) * data.value}
+        angle={(360 / total) * Math.abs(data.value)}
         fill={data.backgroundColor}
         stroke={hover.didHover ? data.strokeColor : null}
         strokeWidth={hover.didHover ? data.strokeWidth : null}
