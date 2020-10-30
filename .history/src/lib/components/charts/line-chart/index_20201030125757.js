@@ -16,7 +16,7 @@ const LineChart = ({ x, y, data, width, height, options }) => {
   //   dataPlotted: null,
   //   label: null,
   // });
-
+  
   //  eslint-disable-next-line
   const [showToolTip, setShowToolTip] = React.useState(false);
   // const [labels, setLabels] = React.useState(data.labels);
@@ -30,7 +30,8 @@ const LineChart = ({ x, y, data, width, height, options }) => {
 
   /*------------------------------------------------------------------------------------------------------------------------*/
 
-/* -------------------------------- Variables ------------------------------- */
+  /*---------------------variables------------------------------------------------------------------------------------------------*/
+
   const showGrid = options.showGrid === undefined ? true : options.showGrid;
   const groupId = nanoid();
   const labels = data.labels;
