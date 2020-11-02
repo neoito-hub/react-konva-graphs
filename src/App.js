@@ -71,11 +71,12 @@ function App() {
         <BarChart
           data={data}
           width={600}
-          height={200}
+          height={500}
           x={0}
           y={0}
           options={{
             responsive: true,
+            showGrid: true
           }}
         />
         <LineChart

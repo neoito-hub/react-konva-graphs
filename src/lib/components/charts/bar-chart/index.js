@@ -3,8 +3,9 @@ import { Text, Line, Rect, Group } from 'react-konva';
 import { nanoid } from 'nanoid';
 import Konva from 'konva';
 
-import VerticalLines from './components/VerticalLines';
-import HorizontalLines from './components/HorizontalLines';
+// import VerticalLines from './components/VerticalLines';
+import HorizontalAxis from './components/HorizontalAxis';
+import VerticalAxis from './components/VerticalAxis';
 import Bar from './components/Bar';
 
 const BarChart = ({ data, width, height, options }) => {
@@ -54,7 +55,8 @@ const BarChart = ({ data, width, height, options }) => {
   const horizontalInterval = width / labelLength;
   const verticalInterval = height / yAxisTicks;
   const graphRange = yAxisTicks * yAxisInt;
-
+  const yMargin = 30;
+  const xMargin = 40;
   if (absoluteMax > 10000000) {
     scaleFactor = 1000000;
     scaleSuffix = 'M';
@@ -65,25 +67,26 @@ const BarChart = ({ data, width, height, options }) => {
     scaleFactor = 1;
     scaleSuffix = '';
   }
+  const pitchInterval = (width - 2 * xMargin) / labels.length;
+  const xAxisPos =
+    yMargin + (height - 2 * yMargin) * (positiveTicks / yAxisTicks);
 
   const getBarWidth = () => {
-    return (horizontalInterval * (barWidth * 100)) / 100;
+    return pitchInterval * barWidth;
   };
 
   const getBarheight = (i) => {
     const barRatio = dataToPlot[i] / graphRange;
-    return barRatio * height;
+    return barRatio * (height - 2 * yMargin);
   };
 
   const getBarX = (i) => {
-    return horizontalInterval * i + (horizontalInterval - getBarWidth()) / 2;
+    const startingPos = xMargin - pitchInterval * (0.5 + 0.5 * barWidth);
+    return startingPos + (i + 1) * pitchInterval;
   };
 
   const getBarY = (i) => {
-    const normalizer = Math.abs((-negativeTicks * yAxisInt) / scaleFactor);
-    console.log(normalizer)
-    const ht = (height - getBarheight(i)) -normalizer;
-    return ht ;
+    return xAxisPos - getBarheight(i);
   };
 
   /*---------------------------------------------------------------------------------------------------------------------*/
@@ -102,27 +105,18 @@ const BarChart = ({ data, width, height, options }) => {
           onClick={() => setShowToolTip(false)}
         />
         <Text x={width / 2} y={-30} fontSize={20} text={data.datasets.label} />
-        {/* horizontal lines */}
-        <HorizontalLines
+
+        <VerticalAxis
           yAxisTicks={yAxisTicks}
           width={width}
           showGrid={showGrid}
           height={height}
+          yMargin={yMargin}
           negativeTicks={negativeTicks}
-          verticalInterval={verticalInterval}
+          yAxisInt={yAxisInt}
           scaleFactor={scaleFactor}
           scaleSuffix={scaleSuffix}
-          yAxisInt={yAxisInt}
-        />
-
-        {/* vertical lines */}
-        <VerticalLines
-          yAxisTicks={yAxisTicks}
-          width={width}
-          showGrid={showGrid}
-          height={height}
-          horizontalInterval={horizontalInterval}
-          labels={labels}
+          xMargin={xMargin}
         />
 
         {/* bars */}
@@ -146,6 +140,21 @@ const BarChart = ({ data, width, height, options }) => {
             }
           />
         ))}
+
+        <HorizontalAxis
+          yAxisTicks={yAxisTicks}
+          width={width}
+          showGrid={showGrid}
+          height={height}
+          horizontalInterval={horizontalInterval}
+          labels={labels}
+          yMargin={yMargin}
+          xMargin={xMargin}
+          positiveTicks={positiveTicks}
+          pitchInterval={pitchInterval}
+          barWidth={getBarWidth()}
+          xAxisPos={xAxisPos}
+        />
       </Group>
     </>
   );
