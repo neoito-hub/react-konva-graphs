@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import { Stage, Layer } from 'react-konva'
-import { PieChart, BarChart, DonutChart } from './lib'
+import React, { useState } from 'react';
+import { Stage, Layer } from 'react-konva';
+import { PieChart, BarChart, DonutChart, LineChart } from './lib';
 
 function App() {
   // Data passes as per Chart.js
@@ -46,20 +46,18 @@ function App() {
       backgroundColor: ['#FF6384', '#63FF84', '#84FF63', '#8463FF', '#6384FF'],
     },
     hoverBorderColor: 'red',
-  }
+  };
 
-  
-
-  const [selectedId, selectShape] = useState(null)
+  const [selectedId, selectShape] = useState(null);
 
   /* ----------------------------- Methods ---------------------------- */
   // to deselect when clicked outside the transformer
   const checkDeselect = (e) => {
-    const clickedOnEmpty = e.target === e.target.getStage()
+    const clickedOnEmpty = e.target === e.target.getStage();
     if (clickedOnEmpty) {
-      selectShape(null)
+      selectShape(null);
     }
-  }
+  };
   /* -------------------------------------------------------------------------- */
 
   return (
@@ -79,6 +77,16 @@ function App() {
           options={{
             responsive: true,
             showGrid: true
+          }}
+        />
+        <LineChart
+          data={data}
+          width={600}
+          height={200}
+          x={60}
+          y={350}
+          options={{
+            responsive: true,
           }}
         />
 
@@ -108,7 +116,7 @@ function App() {
         />
       </Layer>
     </Stage>
-  )
+  );
 }
 
-export default App
+export default App;

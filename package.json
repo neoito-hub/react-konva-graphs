@@ -14,6 +14,7 @@
       "@babel/preset-react"
     ]
   },
+  "homepage":"http://neoito-hub.github.io/react-konva-graphs",
   "dependencies": {
     "konva": "^7.1.4",
     "nanoid": "^3.1.15",
@@ -24,9 +25,12 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "rm -rf dist && mkdir dist && babel ./src/lib --out-dir dist --copy-files --ignore __tests__,spec.js,test.js",
+    "generate": "rm -rf dist && mkdir dist && babel ./src/lib --out-dir dist --copy-files --ignore __tests__,spec.js,test.js",
+    "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy":"npm run build",
+    "deploy":"gh-pages -d build"
   },
   "repository": {
     "type": "git",
@@ -56,6 +60,7 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "gh-pages": "^3.1.0",
     "web-vitals": "^0.2.4"
   }
 }
