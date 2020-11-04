@@ -70,12 +70,11 @@ const PieGroup = ({
   }
 
   return (
-    console.log('rerende'),
     (
       <Fragment>
         <Group
-          x={x}
-          y={y}
+          x={x || 0}
+          y={y || 0}
           height={height}
           width={width}
           draggable

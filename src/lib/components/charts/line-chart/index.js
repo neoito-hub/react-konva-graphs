@@ -3,11 +3,12 @@ import { Text, Rect, Group } from 'react-konva';
 import { nanoid } from 'nanoid';
 import Konva from 'konva';
 
+// import VerticalLines from './components/VerticalLines';
+import HorizontalAxis from './components/HorizontalAxis';
 import VerticalAxis from './components/VerticalAxis';
-import HorizontalAxis from './components/HorizontalAxis.js';
-import ChartLine from './components/Line';
+import Line from './components/Line';
 
-const LineChart = ({ x, y, data, width, height, options }) => {
+const BarChart = ({ data, width, height, options, x, y }) => {
   /*---------------------State------------------------------------------------------------------------------------------------*/
 
   const [toolTipData, setToolTipData] = React.useState({
@@ -16,8 +17,6 @@ const LineChart = ({ x, y, data, width, height, options }) => {
     dataPlotted: null,
     label: null,
   });
-
-  //  eslint-disable-next-line
   const [showToolTip, setShowToolTip] = React.useState(false);
   // const [labels, setLabels] = React.useState(data.labels);
   // const [dataToPlot, setDataToPlot] = React.useState(data.datasets.data)
@@ -30,12 +29,13 @@ const LineChart = ({ x, y, data, width, height, options }) => {
 
   /*------------------------------------------------------------------------------------------------------------------------*/
 
-/* -------------------------------- Variables ------------------------------- */
+  /*---------------------variables------------------------------------------------------------------------------------------------*/
+
   const showGrid = options.showGrid === undefined ? true : options.showGrid;
   const groupId = nanoid();
   const labels = data.labels;
   const dataToPlot = data.datasets.data;
-  const barWidth = 0.01; // 1% of interval
+  const barWidth = 0.7; // 70% of interval
   const minVal = Math.min(...dataToPlot);
   const maxVal = Math.max(...dataToPlot);
   let absoluteMax = maxVal;
@@ -57,7 +57,6 @@ const LineChart = ({ x, y, data, width, height, options }) => {
   const graphRange = yAxisTicks * yAxisInt;
   const yMargin = 30;
   const xMargin = 40;
-
   if (absoluteMax > 10000000) {
     scaleFactor = 1000000;
     scaleSuffix = 'M';
@@ -89,6 +88,7 @@ const LineChart = ({ x, y, data, width, height, options }) => {
   const getBarY = (i) => {
     return xAxisPos - getBarheight(i);
   };
+
   const createLinePoints = (labels) => {
     let pointsArray = [];
     labels.forEach((label, i) => {
@@ -98,7 +98,7 @@ const LineChart = ({ x, y, data, width, height, options }) => {
     console.log(pointsArray);
     return pointsArray;
   };
-  console.log(createLinePoints(labels));
+
   /*---------------------------------------------------------------------------------------------------------------------*/
 
   /*-------------------------------------functions--------------------------------------------------------------------------------*/
@@ -107,7 +107,7 @@ const LineChart = ({ x, y, data, width, height, options }) => {
 
   return (
     <>
-      <Group x={x} y={y} id={groupId} ref={groupRef} draggable={true}>
+      <Group x={x || 0} y={y || 0} id={groupId} ref={groupRef} draggable={true}>
         <Rect
           fill="#fff"
           width={width}
@@ -115,7 +115,43 @@ const LineChart = ({ x, y, data, width, height, options }) => {
           onClick={() => setShowToolTip(false)}
         />
         <Text x={width / 2} y={-30} fontSize={20} text={data.datasets.label} />
-        {/* horizontal lines */}
+
+        <VerticalAxis
+          yAxisTicks={yAxisTicks}
+          width={width}
+          showGrid={showGrid}
+          height={height}
+          yMargin={yMargin}
+          negativeTicks={negativeTicks}
+          yAxisInt={yAxisInt}
+          scaleFactor={scaleFactor}
+          scaleSuffix={scaleSuffix}
+          xMargin={xMargin}
+        />
+
+        {/* line */}
+
+        {labels.map((label, i) => (
+          <Line
+            key={nanoid()}
+            data={{ label, value: dataToPlot[i] }}
+            bw={getBarWidth()}
+            bh={getBarheight(i)}
+            x={getBarX(i)}
+            y={getBarY(i)}
+            points={createLinePoints(labels)}
+            hoverBorderColor={data.hoverBorderColor || '#000'}
+            borderWidth={data.borderWidth || 2}
+            backgroundColor={
+              data?.datasets?.backgroundColor
+                ? data.datasets.backgroundColor[i]
+                  ? data.datasets.backgroundColor[i]
+                  : Konva.Util.getRandomColor()
+                : Konva.Util.getRandomColor()
+            }
+          />
+        ))}
+
         <HorizontalAxis
           yAxisTicks={yAxisTicks}
           width={width}
@@ -130,42 +166,9 @@ const LineChart = ({ x, y, data, width, height, options }) => {
           barWidth={getBarWidth()}
           xAxisPos={xAxisPos}
         />
-
-        {/* vertical lines */}
-        <VerticalAxis
-          yAxisTicks={yAxisTicks}
-          width={width}
-          showGrid={showGrid}
-          height={height}
-          yMargin={yMargin}
-          negativeTicks={negativeTicks}
-          yAxisInt={yAxisInt}
-          scaleFactor={scaleFactor}
-          scaleSuffix={scaleSuffix}
-          xMargin={xMargin}
-        />
-
-        {/* bars */}
-
-        {labels.map((label, i) => (
-          <ChartLine
-            key={nanoid()}
-            data={{ label, value: dataToPlot[i] }}
-            x={getBarX(i)}
-            y={getBarY(i)}
-            points={createLinePoints(labels)}
-            backgroundColor={
-              data?.datasets?.backgroundColor
-                ? data.datasets.backgroundColor[i]
-                  ? data.datasets.backgroundColor[i]
-                  : Konva.Util.getRandomColor()
-                : Konva.Util.getRandomColor()
-            }
-          />
-        ))}
       </Group>
     </>
   );
 };
 
-export default LineChart;
+export default BarChart;
