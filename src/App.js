@@ -70,10 +70,10 @@ function App() {
       <Layer>
         <BarChart
           data={data}
-          width={600}
+          width={800}
           height={500}
           x={30}
-          y={0}
+          y={40}
           options={{
             responsive: true,
             showGrid: true,

@@ -88,7 +88,7 @@ Bar chart accepts the following props
 ```jsx
 import React from 'react';
 import { Stage, Layer } from 'react-konva';
-import { BarChart } from 'react-konva-graphs';
+import { LineChart } from 'react-konva-graphs';
 
 
 function App() {
@@ -115,7 +115,7 @@ return (
       onMouseDown={checkDeselect}
       onTouchStart={checkDeselect}>
       <Layer>
-        <BarChart
+        <LineChart
           data={data}
           width={600}
           height={500}
@@ -140,8 +140,6 @@ Line chart accepts the following props
 |x | X coordinate to place graph in canvas|
 |y | Y coordinate to place graph in canvas|
 |option | currently we only support `showGrid` option which accepts a boolean value
-
-
 
 #### Pie Chart
 
@@ -196,7 +194,6 @@ Pie chart accepts the following props
 |x | X coordinate to place graph in canvas|
 |y | Y coordinate to place graph in canvas|
 
-
 #### Donut Chart
 
 ```jsx
@@ -249,9 +246,6 @@ Donut Chart accepts the following props
 | Height | Height of graph|
 |x | X coordinate to place graph in canvas|
 |y | Y coordinate to place graph in canvas|
-
-
-
 
 ## Contributing
 
