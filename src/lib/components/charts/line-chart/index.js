@@ -3,19 +3,19 @@ import { Text, Rect, Group } from 'react-konva';
 import { nanoid } from 'nanoid';
 import Konva from 'konva';
 
-import VerticalLines from './components/VerticalLines';
-import HorizontalLines from './components/HorizontalLines';
+import VerticalAxis from './components/VerticalAxis';
+import HorizontalAxis from './components/HorizontalAxis.js';
 import ChartLine from './components/Line';
 
 const LineChart = ({ x, y, data, width, height, options }) => {
   /*---------------------State------------------------------------------------------------------------------------------------*/
 
-  // const [toolTipData, setToolTipData] = React.useState({
-  //   x: null,
-  //   y: null,
-  //   dataPlotted: null,
-  //   label: null,
-  // });
+  const [toolTipData, setToolTipData] = React.useState({
+    x: null,
+    y: null,
+    dataPlotted: null,
+    label: null,
+  });
 
   //  eslint-disable-next-line
   const [showToolTip, setShowToolTip] = React.useState(false);
@@ -35,7 +35,7 @@ const LineChart = ({ x, y, data, width, height, options }) => {
   const groupId = nanoid();
   const labels = data.labels;
   const dataToPlot = data.datasets.data;
-  const barWidth = 0.01; // 70% of interval
+  const barWidth = 0.01; // 1% of interval
   const minVal = Math.min(...dataToPlot);
   const maxVal = Math.max(...dataToPlot);
   let absoluteMax = maxVal;
@@ -55,6 +55,8 @@ const LineChart = ({ x, y, data, width, height, options }) => {
   const horizontalInterval = width / labelLength;
   const verticalInterval = height / yAxisTicks;
   const graphRange = yAxisTicks * yAxisInt;
+  const yMargin = 30;
+  const xMargin = 40;
 
   if (absoluteMax > 10000000) {
     scaleFactor = 1000000;
@@ -66,25 +68,26 @@ const LineChart = ({ x, y, data, width, height, options }) => {
     scaleFactor = 1;
     scaleSuffix = '';
   }
+  const pitchInterval = (width - 2 * xMargin) / labels.length;
+  const xAxisPos =
+    yMargin + (height - 2 * yMargin) * (positiveTicks / yAxisTicks);
 
   const getBarWidth = () => {
-    return (horizontalInterval * (barWidth * 100)) / 100;
+    return pitchInterval * barWidth;
   };
 
   const getBarheight = (i) => {
     const barRatio = dataToPlot[i] / graphRange;
-    return barRatio * height;
+    return barRatio * (height - 2 * yMargin);
   };
 
   const getBarX = (i) => {
-    return horizontalInterval * i + (horizontalInterval - getBarWidth()) / 2;
+    const startingPos = xMargin - pitchInterval * (0.5 + 0.5 * barWidth);
+    return startingPos + (i + 1) * pitchInterval;
   };
 
   const getBarY = (i) => {
-    const normalizer = Math.abs((-negativeTicks * yAxisInt) / scaleFactor);
-    console.log(normalizer);
-    const ht = height - getBarheight(i) - normalizer;
-    return ht;
+    return xAxisPos - getBarheight(i);
   };
   const createLinePoints = (labels) => {
     let pointsArray = [];
@@ -113,26 +116,33 @@ const LineChart = ({ x, y, data, width, height, options }) => {
         />
         <Text x={width / 2} y={-30} fontSize={20} text={data.datasets.label} />
         {/* horizontal lines */}
-        <HorizontalLines
-          yAxisTicks={yAxisTicks}
-          width={width}
-          showGrid={showGrid}
-          height={height}
-          negativeTicks={negativeTicks}
-          verticalInterval={verticalInterval}
-          scaleFactor={scaleFactor}
-          scaleSuffix={scaleSuffix}
-          yAxisInt={yAxisInt}
-        />
-
-        {/* vertical lines */}
-        <VerticalLines
+        <HorizontalAxis
           yAxisTicks={yAxisTicks}
           width={width}
           showGrid={showGrid}
           height={height}
           horizontalInterval={horizontalInterval}
           labels={labels}
+          yMargin={yMargin}
+          xMargin={xMargin}
+          positiveTicks={positiveTicks}
+          pitchInterval={pitchInterval}
+          barWidth={getBarWidth()}
+          xAxisPos={xAxisPos}
+        />
+
+        {/* vertical lines */}
+        <VerticalAxis
+          yAxisTicks={yAxisTicks}
+          width={width}
+          showGrid={showGrid}
+          height={height}
+          yMargin={yMargin}
+          negativeTicks={negativeTicks}
+          yAxisInt={yAxisInt}
+          scaleFactor={scaleFactor}
+          scaleSuffix={scaleSuffix}
+          xMargin={xMargin}
         />
 
         {/* bars */}

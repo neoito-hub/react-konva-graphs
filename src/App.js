@@ -82,9 +82,9 @@ function App() {
         <LineChart
           data={data}
           width={600}
-          height={200}
-          x={60}
-          y={350}
+          height={400}
+          x={660}
+          y={190}
           options={{
             responsive: true,
           }}
