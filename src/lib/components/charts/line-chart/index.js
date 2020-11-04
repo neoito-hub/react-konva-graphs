@@ -107,7 +107,7 @@ const BarChart = ({ data, width, height, options, x, y }) => {
 
   return (
     <>
-      <Group x={x || 0} y={x || 0} id={groupId} ref={groupRef} draggable={true}>
+      <Group x={x || 0} y={y || 0} id={groupId} ref={groupRef} draggable={true}>
         <Rect
           fill="#fff"
           width={width}
