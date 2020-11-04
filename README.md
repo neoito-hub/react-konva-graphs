@@ -1,6 +1,6 @@
 # react-konva-graphs
 
-react-konva-graphs is a package made with konva js to draw graphs/charts easily into the workspace.
+react-konva-graphs is a package made with konva js to draw graphs/charts easily into the workspace of projects which use react-konva.
 
 Currently, we support 4 types of graphs
 
@@ -73,6 +73,8 @@ return (
 export default App;
 ```
 
+![bar chart](https://raw.githubusercontent.com/neoito-hub/react-konva-graphs/dev/bar.png 'Barchart')
+
 Bar chart accepts the following props
 | Name | Description |
 |------|-------------|
@@ -131,6 +133,8 @@ return (
 export default App;
 ```
 
+![line chart](https://raw.githubusercontent.com/neoito-hub/react-konva-graphs/dev/line.png 'Linechart')
+
 Line chart accepts the following props
 | Name | Description |
 |------|-------------|
@@ -185,6 +189,8 @@ return (
 export default App;
 ```
 
+![pie chart](https://raw.githubusercontent.com/neoito-hub/react-konva-graphs/dev/pie.png 'Piechart')
+
 Pie chart accepts the following props
 | Name | Description |
 |------|-------------|
@@ -237,6 +243,8 @@ return (
 }
 export default App;
 ```
+
+![donut chart](https://raw.githubusercontent.com/neoito-hub/react-konva-graphs/dev/donut.png 'Donut chart')
 
 Donut Chart accepts the following props
 | Name | Description |
