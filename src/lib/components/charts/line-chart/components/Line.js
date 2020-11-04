@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { Line, Circle } from 'react-konva';
-// import { nanoid } from 'nanoid';
+import { Circle, Line } from 'react-konva';
 
 import ToolTip from '../../../tooltip/tooltip';
 
-const ChartLine = ({ data, x, y, points, backgroundColor }) => {
+const LineMaker = ({ data, x, y, backgroundColor, points }) => {
   const [hover, setHover] = useState({
     didHover: false,
     position: null,
@@ -16,7 +15,7 @@ const ChartLine = ({ data, x, y, points, backgroundColor }) => {
       didHover: true,
       data: {
         x: x,
-        y: y-50,
+        y: 0,
         name: data.label,
         value: data.value,
       },
@@ -31,25 +30,25 @@ const ChartLine = ({ data, x, y, points, backgroundColor }) => {
   };
   return (
     <>
-      <Circle 
+      <Circle
         x={x}
         y={y}
         radius={4}
-        fill= {backgroundColor}
+        fill={backgroundColor}
         onMouseOver={(e) => onMouseOver(e)}
         onMouseOut={onMouseOut}
       />
-      <Line 
+      <Line
         points={points}
-        stroke= '#D98880 '
-        strokeWidth= {2}
-        lineCap= 'round'
-        lineJoin= 'round'
-        dash={[10,5]}
+        stroke="#D98880 "
+        strokeWidth={2}
+        lineCap="round"
+        lineJoin="round"
+        dash={[10, 5]}
       />
       {hover.didHover && <ToolTip data={hover.data} />}
     </>
   );
 };
 
-export default ChartLine;
+export default LineMaker;

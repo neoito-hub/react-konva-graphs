@@ -72,19 +72,19 @@ function App() {
           data={data}
           width={600}
           height={500}
-          x={0}
+          x={30}
           y={0}
           options={{
             responsive: true,
-            showGrid: true
+            showGrid: true,
           }}
         />
         <LineChart
           data={data}
-          width={600}
-          height={200}
+          width={700}
+          height={300}
           x={60}
-          y={350}
+          y={550}
           options={{
             responsive: true,
           }}

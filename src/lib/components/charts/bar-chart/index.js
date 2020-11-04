@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, Line, Rect, Group } from 'react-konva';
+import { Text, Rect, Group } from 'react-konva';
 import { nanoid } from 'nanoid';
 import Konva from 'konva';
 
@@ -8,7 +8,7 @@ import HorizontalAxis from './components/HorizontalAxis';
 import VerticalAxis from './components/VerticalAxis';
 import Bar from './components/Bar';
 
-const BarChart = ({ data, width, height, options }) => {
+const BarChart = ({ data, width, height, x, y, options }) => {
   /*---------------------State------------------------------------------------------------------------------------------------*/
 
   const [toolTipData, setToolTipData] = React.useState({
@@ -30,7 +30,6 @@ const BarChart = ({ data, width, height, options }) => {
   /*------------------------------------------------------------------------------------------------------------------------*/
 
   /*---------------------variables------------------------------------------------------------------------------------------------*/
-
   const showGrid = options.showGrid === undefined ? true : options.showGrid;
   const groupId = nanoid();
   const labels = data.labels;
@@ -97,7 +96,7 @@ const BarChart = ({ data, width, height, options }) => {
 
   return (
     <>
-      <Group x={60} y={60} id={groupId} ref={groupRef} draggable={true}>
+      <Group x={x || 0} y={y || 0} id={groupId} ref={groupRef} draggable={true}>
         <Rect
           fill="#fff"
           width={width}
